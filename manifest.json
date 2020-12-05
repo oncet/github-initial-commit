@@ -7,6 +7,9 @@
     "default_popup": "index.html",
     "default_icon": "icon.png"
   },
+  "permissions": [
+    "tabs"
+  ],
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
