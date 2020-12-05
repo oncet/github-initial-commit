@@ -5,7 +5,7 @@
         chrome.tabs.query({
           active: true,
           windowId: chrome.windows.WINDOW_ID_CURRENT,
-        }, (tabs) => resolve(tabs[0]))
+        }, tabs => resolve(tabs[0]))
       } catch(error) {
         reject(error)
       }
