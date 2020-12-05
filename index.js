@@ -5,8 +5,7 @@
   console.log(lastPageLink)
   const response = await fetch(lastPageLink)
   const commits = await response.json()
-  const oldest = commits
-    .sort((first, second) => (
+  const oldest = commits.sort((first, second) => (
       new Date(second.commit.author.date) - new Date(first.commit.author.date)
     )).pop()
     
