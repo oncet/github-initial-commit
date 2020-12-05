@@ -1,6 +1,6 @@
 {
-  "name": "Hello Extensions",
-  "description" : "Base Level Extension",
+  "name": "GitHub First Commit",
+  "description" : "Jump to the first commit of a GitHub repository",
   "version": "1.0",
   "manifest_version": 2,
   "browser_action": {
@@ -16,7 +16,7 @@
         "default": "Ctrl+Shift+F",
         "mac": "MacCtrl+Shift+F"
       },
-      "description": "Opens index.html"
+      "description": "Jump to first commit!"
     }
   }
 }
