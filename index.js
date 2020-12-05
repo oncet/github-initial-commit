@@ -29,6 +29,7 @@
   })
 
   // Extract last page link from headers
+  // TODO link header may not exist
   const lastPageLink = [...headers.get('link').matchAll(/\W<(.+?)>; rel="last"/gm)]
     .map(link => link[1])[0]
 
