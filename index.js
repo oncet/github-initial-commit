@@ -23,24 +23,23 @@
     document.querySelector('h1').innerText = 'Not in a GitHub repo :('
   }
 
-  // Get response headers
-  const { headers } = await fetch(`https://api.github.com/repos/${urlFragment}/commits`, {
-    method: 'HEAD'
-  })
+  const response = await fetch(`https://api.github.com/repos/${urlFragment}/commits`)
+
+  const heaersLink = response.headers.get('link')
 
   // Extract last page link from headers
-  // TODO link header may not exist
-  const lastPageLink = [...headers.get('link').matchAll(/\W<(.+?)>; rel="last"/gm)]
-    .map(link => link[1])[0]
+  const links = heaersLink?.matchAll(/\W<(.+?)>; rel="last"/gm)
 
-  // Get commits from last page
-  const response = await fetch(lastPageLink)
-  const commits = await response.json()
+  const [ lastPageLink ] = links ? [...links].map(link => link[1]) : []
+
+  const lastPageResponse = lastPageLink && await fetch(lastPageLink)
+  
+  const lastPageCommits = lastPageResponse ? await lastPageResponse.json() : await response.json()
 
   // Get oldest commit
-  const oldest = commits.sort((first, second) => (
+  const oldest = lastPageCommits.sort((first, second) => (
       new Date(second.commit.author.date) - new Date(first.commit.author.date)
     )).pop()
-  
+
   window.open(oldest.html_url)
 })()
