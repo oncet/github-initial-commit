@@ -15,20 +15,30 @@
   const { url } = await getCurrentTab()
 
   let urlFragment
+  let response
 
   try {
     // TODO Match owner/repo/foo also
     urlFragment = url.match(/github\.com\/(.+?\/.+?)$/)[1]
   } catch {
     document.querySelector('h1').innerText = 'Not in a GitHub repo :('
+    return
   }
 
-  const response = await fetch(`https://api.github.com/repos/${urlFragment}/commits`)
+  try {
+    response = await fetch(`https://api.github.com/repos/${urlFragment}/commits`)
+  } catch {
+    document.querySelector('h1').innerText = 'Fetch failed... no internet?'
+    return
+  }
 
-  const heaersLink = response.headers.get('link')
+  if (!response.ok) {
+    document.querySelector('h1').innerText = 'Bad response... repo is private?'
+    return
+  }
 
   // Extract last page link from headers
-  const links = heaersLink?.matchAll(/\W<(.+?)>; rel="last"/gm)
+  const links = response.headers.get('link')?.matchAll(/\W<(.+?)>; rel="last"/gm)
 
   const [ lastPageLink ] = links ? [...links].map(link => link[1]) : []
 
