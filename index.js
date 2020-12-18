@@ -18,8 +18,7 @@
   let response
 
   try {
-    // TODO Match owner/repo/foo also
-    urlFragment = url.match(/github\.com\/(.+?\/.+?)$/)[1]
+    urlFragment = url.match(/github\.com\/([^\/]+\/[^\/]+)/)[1]
   } catch {
     document.querySelector('h1').innerText = 'Not in a GitHub repo :('
     return
